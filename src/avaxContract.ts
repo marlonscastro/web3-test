@@ -1,8 +1,9 @@
+import 'dotenv/config'
 import Web3 from 'web3'
 import { AbiItem } from 'web3-utils'
-import common from 'ethereumjs-common'
-import tx from 'ethereumjs-tx'
-import MyContractABI from './src/abis/Test.json'
+import { Chain, Common, Hardfork } from '@ethereumjs/common'
+import tx from '@ethereumjs/tx'
+import MyContractABI from './abis/Test.json'
 
 // configurações para Testnet da AVAX 
 const chain = common.forCustomChain(
@@ -13,6 +14,20 @@ const chain = common.forCustomChain(
 },
   'petersburg'
 )
+
+// const common = Common.custom({
+//   name: 'avax',
+//   networkId: 97,
+//   chainId: 43113
+// })
+
+
+// const c = new Common({ 
+//   chain: Chain.Mainnet, 
+//   hardfork: Hardfork.Petersburg
+// })
+
+
 
 // Mesmo sendo a Binance, o saldo é expresso em ether pois a Binance foi um Hard Fork de Geth com Proof of Stake ao inves de Work
 const init = async () => {
@@ -36,7 +51,8 @@ const init = async () => {
   const account = '0x8d5176A8E81f4cA7B0a160CC08BC0D130640bd60';
 
   // Chave privada da conta (Necessária caso tenha que fazer transações payable)
-  const privateKey = Buffer.from('4fca24389e8280d485756a46e1ddbff02b41626dfdb32048953d65873cdd0f99', 'hex');
+  if (!process.env.PRIVATE_KEY) return
+  const privateKey = Buffer.from(process.env.PRIVATE_KEY, 'hex');
 
   // Busca o saldo da conta
   const balanceWei = await web3.eth.getBalance(account)
@@ -55,30 +71,37 @@ const init = async () => {
   // Busca o Nonce 
   const nonce = await web3.eth.getTransactionCount(account)
 
-  const txParams = {
-    gasPrice: 25000000000,
-    gasLimit: estimatedGas,
-    to: contractAddress,
-    data: contractFunction.encodeABI(),
-    from: account,
-    nonce: '0x' + nonce.toString(16)
+  const txData: tx.TxData = {
+
+    // gasPrice: 25000000000,
+    // gasLimit: estimatedGas,
+    // to: contractAddress,
+    // data: contractFunction.encodeABI(),
+    // from: account,
+    // nonce: '0x' + nonce.toString(16)
   };
+
+  // const tx: tx.TxOptions = {
+  //   common: chain
+  // }
+
   // Cria a Transação com os parametros desejados 
-  const rawTx = new tx.Transaction(txParams, {
+  const rawTx = new tx.Transaction(txData, {
     common: chain
   });
+
 
   // Assina a transação com a chave privada
   rawTx.sign(privateKey);
 
   // Envia a transação para alterar o estado no Contrato 
   web3.eth.sendSignedTransaction('0x' + rawTx.serialize().toString('hex'))
-  .on('receipt', async receipt => {
-    const data = await contract.methods.getCount().call();
-    console.log('Depois: ', data);
-  }).catch(err => {
-    console.log(err);
-  })
+    .on('receipt', async receipt => {
+      const data = await contract.methods.getCount().call();
+      console.log('Depois: ', data);
+    }).catch(err => {
+      console.log(err);
+    })
 
 }
 

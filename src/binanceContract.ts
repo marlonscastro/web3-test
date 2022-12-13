@@ -28,8 +28,6 @@ const init = async () => {
     contractAddress
   )
 
-  const c = new web3.eth.Contract()
-
   // Busca se tem alguma conta adicionada ao navegador, ex: Metamask
   const addresses = await web3.eth.getAccounts();
   console.log('Lista de endereços de payer: ', addresses);
@@ -39,7 +37,8 @@ const init = async () => {
   const account = '0x8d5176A8E81f4cA7B0a160CC08BC0D130640bd60';
 
   // Chave privada da conta (Necessária caso tenha que fazer transações payable)
-  const privateKey = Buffer.from('4fca24389e8280d485756a46e1ddbff02b41626dfdb32048953d65873cdd0f99', 'hex');
+  if(!process.env.PRIVATE_KEY) return
+  const privateKey = Buffer.from(process.env.PRIVATE_KEY, 'hex');
 
   // Busca o saldo da conta
   const balanceWei = await web3.eth.getBalance(account)

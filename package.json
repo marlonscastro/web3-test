@@ -1,8 +1,12 @@
 {
   "scripts": {
-    "dev": "ts-node-dev --respawn --ignore-watch node_modules avaxContract.ts"
+    "dev": "ts-node-dev --respawn --ignore-watch node_modules src/avaxContract.ts"
   },
   "dependencies": {
+    "@ethereumjs/common": "^3.0.1",
+    "@ethereumjs/tx": "^4.0.1",
+    "@types/node": "^18.11.14",
+    "dotenv": "^16.0.3",
     "ethereumjs-common": "^1.5.2",
     "ethereumjs-tx": "^2.1.2",
     "typescript": "^4.9.4",
