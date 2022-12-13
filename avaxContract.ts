@@ -1,10 +1,11 @@
 import Web3 from 'web3'
+import { AbiItem } from 'web3-utils'
 import common from 'ethereumjs-common'
 import tx from 'ethereumjs-tx'
 import MyContractABI from './src/abis/Test.json'
 
 // configurações para Testnet da AVAX 
-const chain = common.default.forCustomChain(
+const chain = common.forCustomChain(
   'mainnet', {
   name: 'avax',
   networkId: 97,
@@ -23,7 +24,7 @@ const init = async () => {
 
   // Cria uma instância do Contrato 
   const contract = new web3.eth.Contract(
-    MyContractABI,
+    MyContractABI as AbiItem[],
     contractAddress
   )
   // Busca se tem alguma conta adicionada ao navegador, ex: Metamask

@@ -77,12 +77,12 @@ const init = async () => {
 
   // Envia a transação para alterar o estado no Contrato 
   web3.eth.sendSignedTransaction('0x' + rawTx.serialize().toString('hex'))
-  .on('receipt', async receipt => {
-    const data = await contract.methods.getCount().call();
-    console.log('depois: ', data);
-  }).catch(err => {
-    console.log(err);
-  })
+    .on('receipt', async receipt => {
+      const data = await contract.methods.getCount().call();
+      console.log('depois: ', data);
+    }).catch(err => {
+      console.log(err);
+    })
 
 }
 
