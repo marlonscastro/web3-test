@@ -1,7 +1,7 @@
-const Web3 = require('web3');
-const common = require('ethereumjs-common');
-const tx = require('ethereumjs-tx');
-const MyContractABI = require('./src/abis/Test.json');
+import Web3 from 'web3'
+import common from 'ethereumjs-common'
+import tx from 'ethereumjs-tx'
+import MyContractABI from './src/abis/Test.json'
 
 // configurações para Testnet da AVAX 
 const chain = common.default.forCustomChain(

@@ -3,6 +3,7 @@
     "ethereumjs-common": "^1.5.2",
     "ethereumjs-tx": "^2.1.2",
     "typescript": "^4.9.4",
-    "web3": "^1.8.1"
+    "web3": "^1.8.1",
+    "web3-utils": "^1.8.1"
   }
 }

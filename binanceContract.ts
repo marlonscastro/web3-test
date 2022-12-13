@@ -1,7 +1,7 @@
-const Web3 = require('web3');
-const common = require('ethereumjs-common');
-const tx = require('ethereumjs-tx');
-const MyContractABI = require('./src/abis/Test.json');
+import Web3 from 'web3'
+import common from 'ethereumjs-common'
+import tx from 'ethereumjs-tx'
+import MyContractABI from './src/abis/Test.json'
 
 // configurações para Testnet da Binance 
 const chain = common.default.forCustomChain(
@@ -12,6 +12,7 @@ const chain = common.default.forCustomChain(
 },
   'petersburg'
 )
+
 
 // Mesmo sendo a Binance, o saldo é expresso em ether pois a Binance foi um Hard Fork de Geth com Proof of Stake ao inves de Work
 const init = async () => {
@@ -26,6 +27,9 @@ const init = async () => {
     MyContractABI,
     contractAddress
   )
+
+  const c = new web3.eth.Contract()
+
   // Busca se tem alguma conta adicionada ao navegador, ex: Metamask
   const addresses = await web3.eth.getAccounts();
   console.log('Lista de endereços de payer: ', addresses);
